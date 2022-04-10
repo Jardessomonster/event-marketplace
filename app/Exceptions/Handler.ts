@@ -20,4 +20,10 @@ export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
   }
+  public async handle(error: any, { response }) {
+    Logger.warn(`Name Exception: ${error.type}`)
+    Logger.warn(`Name Exception: ${error}`)
+    if (error.code === 'ERR_HTTP_INVALID_STATUS_CODE')
+      return response.status(500).send({ message: 'An error has occurred :/' })
+  }
 }

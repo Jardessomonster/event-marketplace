@@ -1,17 +1,27 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 import { userType } from 'Contracts/enums'
+import Wallet from './Wallet'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public email: string
 
   @column({ serializeAs: null })
   public password: string
+
+  @column()
+  public name: string
+
+  @column()
+  public avatar: string
+
+  @column({ serializeAs: null })
+  public token: string
 
   @column()
   public type: userType 
@@ -28,4 +38,10 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasOne(() => Wallet, {
+    localKey: 'id',
+    foreignKey: 'user_id',
+  })
+  public wallet: HasOne<typeof Wallet>
 }
