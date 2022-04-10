@@ -20,6 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import './routes/user'
+import './routes/wallet'
 
 Route.get('/', async () => {
   return { hello: 'world' }
