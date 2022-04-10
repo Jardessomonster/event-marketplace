@@ -9,10 +9,11 @@ export default class UsersSchema extends BaseSchema {
       table.uuid('id').defaultTo(this.raw('uuid_generate_v4()')).primary()
       table.string('email', 255).notNullable()
       table.string('password', 180).notNullable()
+      table.string('avatar').nullable()
       table.enum('type', Object.values(userType))
       table.string('token', 255).nullable()
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
+      table.timestamp('created_at', { useTz: false }).notNullable()
+      table.timestamp('updated_at', { useTz: false }).notNullable()
     })
   }
 
