@@ -26,6 +26,9 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     if (error.code === 'ERR_HTTP_INVALID_STATUS_CODE')
       return response.status(500).send({ message: 'An error has occurred :/' })
 
+    if (error.code === 'NOT_ENOUGH_MONEY')
+      return response.forbidden(error)
+
     return response.status(error.status).send(error)
   }
 }
