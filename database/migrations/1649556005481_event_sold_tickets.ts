@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class EventSoldTickets extends BaseSchema {
-  protected tableName = 'event_sold_ticket'
+  protected tableName = 'event_sold_tickets'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
