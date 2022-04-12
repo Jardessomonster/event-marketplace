@@ -2,6 +2,8 @@ import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany, ManyToMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 import EventDate from './EventDate'
+import EventSoldTicket from './EventSoldTicket'
+import formatter from 'App/Helpers/currencyFormatter'
 
 export default class Event extends BaseModel {
   @column({ isPrimary: true })
@@ -16,11 +18,11 @@ export default class Event extends BaseModel {
   @column()
   public description: string
 
-  @column()
+  @column({ serialize: (value) => { return formatter.format(value / 100) } })
   public ticket_price: number
 
   @column()
-  public qtd_avalible_price: number
+  public qtd_avalible_tickets: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -28,14 +30,17 @@ export default class Event extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    localKey: 'id',
+    foreignKey: 'owner_id'
+  })
   public owner: BelongsTo<typeof User>
 
   @manyToMany(() => User, {
-    localKey: 'id',
-    relatedKey: 'owner_id',
+    localKey: 'owner_id',
+    relatedKey: 'id',
     pivotForeignKey: 'event_id',
-    pivotRelatedForeignKey: 'id',
+    pivotRelatedForeignKey: 'speaker_id',
     pivotTable: 'event_speakers'
   })
   public speakers: ManyToMany<typeof User>
@@ -45,4 +50,10 @@ export default class Event extends BaseModel {
     foreignKey: 'event_id'
   })
   public dates: HasMany<typeof EventDate>
+
+  @hasMany(() => EventSoldTicket, {
+    localKey: 'id',
+    foreignKey: 'event_id'
+  })
+  public tickets: HasMany<typeof EventSoldTicket>
 }
