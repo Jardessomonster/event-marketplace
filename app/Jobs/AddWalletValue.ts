@@ -28,7 +28,7 @@ export default class AddWalletValue implements JobContract {
     Logger.debug(`AddWalletValue: Job called`)
     const { data } = job
     const wallet = await Wallet.findOrFail(data.walletId)
-    wallet.balance = Number(wallet.balance) + data.value
+    wallet.balance = Number(wallet.balance) + Number(data.value)
     await wallet.save()
     Logger.info(`AddWalletValue: added value to the wallet ${data.value}`)
   }

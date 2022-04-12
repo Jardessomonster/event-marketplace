@@ -28,7 +28,7 @@ export default class RemoveWalletValue implements JobContract {
     Logger.debug(`RemoveWalletValue: Job called`)
     const { data } = job
     const wallet = await Wallet.findOrFail(data.walletId)
-    wallet.balance = Number(wallet.balance) - data.value
+    wallet.balance = Number(wallet.balance) - Number(data.value)
     await wallet.save()
     Logger.info(`RemoveWalletValue: removed value from the wallet ${data.value}`)
   }
