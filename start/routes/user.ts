@@ -1,6 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/', 'UsersController.store').prefix('/api/v1/user')
+Route.post('/', 'UsersController.store').prefix('/api/v1/users')
 
 Route.group(() => {
   Route.get('/', 'UsersController.index')

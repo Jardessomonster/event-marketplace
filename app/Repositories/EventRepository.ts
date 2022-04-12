@@ -26,7 +26,7 @@ class EventRepository {
         ticket_price: data.ticket_price,
         qtd_avalible_tickets: data.qtd_avalible_tickets,
       })
-
+      
       if (data.speakers) await event.useTransaction(trx).related('speakers').attach(data.speakers)
 
       await this.createEventDays(

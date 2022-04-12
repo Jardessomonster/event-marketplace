@@ -64,6 +64,7 @@ export default class EventsController {
     const data = await request.validate(CreateEventValidator)
     const event = await EventRepository.createEvent(auth.user, data)
     await event.load('dates')
+    await event.load('speakers')
 
     return response.created(event)
   }

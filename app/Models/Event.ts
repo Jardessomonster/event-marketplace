@@ -50,11 +50,11 @@ export default class Event extends BaseModel {
   public owner: BelongsTo<typeof User>
 
   @manyToMany(() => User, {
-    localKey: 'owner_id',
-    relatedKey: 'id',
+    localKey: 'id',
     pivotForeignKey: 'event_id',
-    pivotRelatedForeignKey: 'speaker_id',
     pivotTable: 'event_speakers',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'speaker_id',
   })
   public speakers: ManyToMany<typeof User>
 
