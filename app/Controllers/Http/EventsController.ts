@@ -17,7 +17,6 @@ export default class EventsController {
       await Event.query()
         .preload('owner')
         .preload('speakers')
-        .withCount('tickets')
         .whereDoesntHave('tickets', (subQuery) => {
           subQuery.where('buyer_id', user.id)
         })
@@ -108,6 +107,8 @@ export default class EventsController {
 
     const event = await auth.user.related('events').query().where('id', params.id).firstOrFail()
     Logger.info(`EvemtsController.destroy: found event ${event.id}`)
+    await event.related('tickets').query().delete()
+    await event.related('speakers').query().delete()
     await event.delete()
     return response.noContent()
   }
