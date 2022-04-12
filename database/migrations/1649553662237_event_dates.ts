@@ -10,7 +10,7 @@ export default class EventDates extends BaseSchema {
         .references('id')
         .inTable('events')
         .onDelete('CASCADE')
-      table.date('event_date')
+      table.timestamp('event_date', { useTz: false })
       table.string('day_title').nullable()
     })
   }

@@ -8,16 +8,16 @@ export default class CreateEventValidator {
     title: schema.string(),
     description: schema.string.optional(),
     ticket_price: schema.number([
-      rules.unsigned()
+      rules.unsigned(),
     ]),
     qtd_avalible_tickets: schema.number([
-      rules.unsigned()
+      rules.unsigned(),
     ]),
     event_dates: schema.array([
       rules.minLength(1)
     ])
       .members(
-        schema.date({ format: 'yyyy-mm-dd hh:mm' }),
+        schema.date({ format: 'iso' }),
       ),
     day_titles: schema.array([
       rules.minLength(1)
@@ -27,7 +27,13 @@ export default class CreateEventValidator {
       ),
     speakers: schema.array.optional()
       .members(
-        schema.string([rules.uuid()])
+        schema.string([
+          rules.uuid(),
+          rules.exists({
+            table: 'users',
+            column: 'id'
+          })
+        ])
       )
   })
 

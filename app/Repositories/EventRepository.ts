@@ -24,6 +24,7 @@ class EventRepository {
         title: data.title,
         description: data?.description,
         ticket_price: data.ticket_price,
+        qtd_avalible_tickets: data.qtd_avalible_tickets,
       })
 
       if (data.speakers)
@@ -47,22 +48,20 @@ class EventRepository {
     trx: TransactionClientContract,
     day_titles?: string[]
   ) {
-    event_dates.forEach(async (date, index) => {
+    for (const index in event_dates) {
       // create day with title
       if (day_titles?.length && day_titles[index] !== '') {
-        Logger.info(`EventRepository.createEvent: Creating title for event day ${date.day}`)
+        Logger.info(`EventRepository.createEvent: Creating title for event day ${event_dates[index].day}`)
         await event.useTransaction(trx).related('dates').create({
-          event_date: date,
+          event_date: event_dates[index],
           day_title: day_titles[index],
         })
-        return
+      } else {
+        await event.useTransaction(trx).related('dates').create({
+          event_date: event_dates[index],
+        })
       }
-
-      await event.useTransaction(trx).related('dates').create({
-        event_date: date,
-      })
-      return
-    })
+    }
   }
 }
 
