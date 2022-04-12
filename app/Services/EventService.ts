@@ -18,16 +18,18 @@ class EventService {
     if (wallet.balance < event.ticket_price)
       throw {
         code: 'NOT_ENOUGH_MONEY',
-        message: `You don't have enough money to buy this ticket, try add some money to your wallet`
+        message: `You don't have enough money to buy this ticket, try add some money to your wallet`,
       }
 
     const ticket = await event.related('tickets').create({
       buyer_id: user.id,
       paid_value: event.ticket_price,
     })
-    Logger.info(`EventService.buyEventTicket: User ${user.id} bought the ticket for the event ${event.id}`)
+    Logger.info(
+      `EventService.buyEventTicket: User ${user.id} bought the ticket for the event ${event.id}`
+    )
 
-    await event.load('owner', query => {
+    await event.load('owner', (query) => {
       query.preload('wallet')
     })
     const { owner } = event

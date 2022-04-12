@@ -27,15 +27,18 @@ class EventRepository {
         qtd_avalible_tickets: data.qtd_avalible_tickets,
       })
 
-      if (data.speakers)
-        await event.useTransaction(trx).related('speakers').attach(data.speakers)
+      if (data.speakers) await event.useTransaction(trx).related('speakers').attach(data.speakers)
 
-      await this.createEventDays(event, data.event_dates, trx, data.day_titles ? data.day_titles : undefined)
+      await this.createEventDays(
+        event,
+        data.event_dates,
+        trx,
+        data.day_titles ? data.day_titles : undefined
+      )
       Logger.info(`EventRepository.createEvent: event days created successfully`)
       await trx.commit()
       return event
-    }
-    catch (error) {
+    } catch (error) {
       Logger.error(`EventRepository.createEvent: An error has occurred ${error}`)
       await trx.rollback()
       throw new Error(error)
@@ -51,7 +54,9 @@ class EventRepository {
     for (const index in event_dates) {
       // create day with title
       if (day_titles?.length && day_titles[index] !== '') {
-        Logger.info(`EventRepository.createEvent: Creating title for event day ${event_dates[index].day}`)
+        Logger.info(
+          `EventRepository.createEvent: Creating title for event day ${event_dates[index].day}`
+        )
         await event.useTransaction(trx).related('dates').create({
           event_date: event_dates[index],
           day_title: day_titles[index],

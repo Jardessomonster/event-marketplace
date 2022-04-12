@@ -16,7 +16,7 @@ import Wallet from 'App/Models/Wallet'
 
 type addValueData = {
   data: {
-    value: number,
+    value: number
     walletId: string
   }
 }

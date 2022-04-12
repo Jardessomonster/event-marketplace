@@ -25,8 +25,7 @@ class UserRepository {
       Logger.info(`UserRepository.createUser: wallet created for user ${user.name}`)
       await trx.commit()
       return user
-    }
-    catch(error) {
+    } catch (error) {
       Logger.error(`UserRepository.createUser: ${error.message}`)
       await trx.rollback()
       throw new Error(error)

@@ -20,7 +20,7 @@ export default class EventSoldTicket extends BaseModel {
 
   @belongsTo(() => Event, {
     localKey: 'event_id',
-    foreignKey: 'id'
+    foreignKey: 'id',
   })
   public event: BelongsTo<typeof Event>
 }

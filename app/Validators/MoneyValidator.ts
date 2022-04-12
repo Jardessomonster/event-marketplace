@@ -5,9 +5,7 @@ export default class MoneyValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    value: schema.number([
-      rules.unsigned()
-    ])
+    value: schema.number([rules.unsigned()]),
   })
 
   public messages = {}

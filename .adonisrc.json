@@ -19,9 +19,7 @@
     "./start/kernel",
     {
       "file": "./start/notExist",
-      "environment": [
-        "web"
-      ]
+      "environment": ["web"]
     }
   ],
   "providers": [
@@ -31,7 +29,5 @@
     "@adonisjs/lucid",
     "@rocketseat/adonis-bull"
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "aceProviders": ["@adonisjs/repl"]
 }

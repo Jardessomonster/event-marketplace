@@ -8,9 +8,7 @@ import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 export default class UsersController {
   async index({ response }: HttpContextContract) {
     Logger.debug(`UsersController.index: Called`)
-    return response.ok(
-      await User.query()
-    )
+    return response.ok(await User.query())
   }
 
   async show({ response, params }: HttpContextContract) {
@@ -27,9 +25,8 @@ export default class UsersController {
 
   async update({ request, response, auth }: HttpContextContract) {
     Logger.debug(`UsersController.update: Called`)
-    if (!auth.user)
-      return response.unauthorized({ message: `User not authorize` })
-    
+    if (!auth.user) return response.unauthorized({ message: `User not authorize` })
+
     const user = auth.user
     Logger.info(`UsersController.update: user found ${user.id}`)
     const data = await request.validate(UpdateUserValidator)

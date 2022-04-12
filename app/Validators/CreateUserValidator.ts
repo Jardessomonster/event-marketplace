@@ -12,14 +12,11 @@ export default class CreateUserValidator {
       rules.notExist({
         table: 'users',
         column: 'email',
-      })
+      }),
     ]),
-    password: schema.string({}, [
-      rules.minLength(8),
-      rules.maxLength(8),
-    ]),
+    password: schema.string({}, [rules.minLength(8), rules.maxLength(8)]),
     type: schema.enum(Object.values(userType)),
-    avatar: schema.string.optional()
+    avatar: schema.string.optional(),
   })
 
   public messages = {}

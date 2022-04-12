@@ -8,6 +8,10 @@ export default class Wallet extends BaseModel {
   @column()
   public user_id: string
 
-  @column({ serialize: (value) => { return formatter.format(value / 100) } })
+  @column({
+    serialize: (value) => {
+      return formatter.format(value / 100)
+    },
+  })
   public balance: number
 }

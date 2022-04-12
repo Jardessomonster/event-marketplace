@@ -1,5 +1,5 @@
 declare module '@ioc:Adonis/Core/Validator' {
   interface Rules {
-      notExist(options: DbRowCheckOptions): Rule,
+    notExist(options: DbRowCheckOptions): Rule
   }
 }

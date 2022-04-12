@@ -7,12 +7,8 @@ export default class UpdateEventValidator {
   public schema = schema.create({
     title: schema.string.optional(),
     description: schema.string.optional(),
-    ticket_price: schema.number.optional([
-      rules.unsigned(),
-    ]),
-    qtd_avalible_tickets: schema.number.optional([
-      rules.unsigned(),
-    ]),
+    ticket_price: schema.number.optional([rules.unsigned()]),
+    qtd_avalible_tickets: schema.number.optional([rules.unsigned()]),
   })
 
   public messages = {}

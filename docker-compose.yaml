@@ -18,17 +18,17 @@ services:
       - POSTGRES_PASSWORD=marketplace-pass
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
-      - "15432:5432"
+      - '15432:5432'
     networks:
       - marketplace
 
-  adonis:  
+  adonis:
     container_name: marketplace-app-local
     build:
-        context: .
-        dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
-        - 3333:3333
+      - 3333:3333
     networks:
       - marketplace
 
