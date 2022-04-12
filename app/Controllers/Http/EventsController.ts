@@ -4,6 +4,7 @@ import Event from 'App/Models/Event'
 import EventRepository from 'App/Repositories/EventRepository'
 import EventService from 'App/Services/EventService'
 import CreateEventValidator from 'App/Validators/CreateEventValidator'
+import UpdateEventValidator from 'App/Validators/UpdateEventValidator'
 
 export default class EventsController {
   async listEvents({ auth, response, pagination }: HttpContextContract) {
@@ -23,6 +24,18 @@ export default class EventsController {
         .andWhere('qtd_avalible_tickets', '>', 0)
         .paginate(pagination.page, pagination.perPage)
     )
+  }
+
+  async show({ response, params }: HttpContextContract) {
+    Logger.info(`EventsController.show: Called`)
+    const event = await Event.query()
+      .preload('owner')
+      .preload('speakers')
+      .where('id', params.id)
+      .firstOrFail()
+
+    Logger.info(`EventsController.show: event found ${event.id}`)
+    return response.ok(event)
   }
 
   async store({ request, response, auth }: HttpContextContract) {
@@ -58,5 +71,28 @@ export default class EventsController {
 
     const ticket = await EventService.buyEventTicket(user, event)
     return response.created(ticket)
+  }
+
+  async update({ request, response, params, auth }: HttpContextContract) {
+    Logger.debug(`EvemtsController.update: Called`)
+    const data = await request.validate(UpdateEventValidator)
+    if (!auth.user)
+      return response.unauthorized({ message: `User not authorize` })
+
+    const event = await auth.user.related('events').query().where('id', params.id).firstOrFail()
+    Logger.info(`EvemtsController.update: found event ${event.id}`)
+    await event.merge(data).save()
+    return response.ok(event)
+  }
+
+  async destroy({ response, params, auth }) {
+    Logger.debug(`EvemtsController.destroy: Called`)
+    if (!auth.user)
+      return response.unauthorized({ message: `User not authorize` })
+
+    const event = await auth.user.related('events').query().where('id', params.id).firstOrFail()
+    Logger.info(`EvemtsController.destroy: found event ${event.id}`)
+    await event.delete()
+    return response.noContent()
   }
 }
