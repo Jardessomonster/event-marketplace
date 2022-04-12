@@ -36,7 +36,7 @@ export default class WalletsController {
 
     const wallet = await auth.user.related('wallet').query().firstOrFail()
     if (wallet.balance < value)
-      return response.badRequest({
+      return response.forbidden({
         message: 'The value you tryed to remove from your account is bigger than your balance'
       })
 
